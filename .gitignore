@@ -1,0 +1,10 @@
+# binary files
+*.out
+*.o
+
+# confg files
+*.ini
+
+# Compilation-related directories
+bin/
+build/

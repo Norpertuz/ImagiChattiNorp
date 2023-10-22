@@ -1,0 +1,18 @@
+CC = gcc
+CFLAGS = -Wall -I.
+SRC_CLIENT = client.c
+SRC_SERVER = server.c
+HEADERS = functions.h
+TARGET_CLIENT = client.out
+TARGET_SERVER = server.out
+
+all: $(TARGET_CLIENT) $(TARGET_SERVER)
+
+$(TARGET_CLIENT): $(SRC_CLIENT) $(HEADERS)
+	$(CC) $(CFLAGS) -o $(TARGET_CLIENT) $(SRC_CLIENT)
+
+$(TARGET_SERVER): $(SRC_SERVER) $(HEADERS)
+	$(CC) $(CFLAGS) -o $(TARGET_SERVER) $(SRC_SERVER)
+
+clean:
+	rm -f $(TARGET_CLIENT) $(TARGET_SERVER)
