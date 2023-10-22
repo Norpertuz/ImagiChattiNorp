@@ -5,10 +5,11 @@
 #include <arpa/inet.h>
 #include <functions.h>
 
-#define MAX_
+#define MAX_MESSAGE_SIZE 1024
+
 struct ClientMessage {
     char username[100];
-    char text[1024];
+    char text[MAX_MESSAGE_SIZE];
 };
 
 int main() {
@@ -26,7 +27,7 @@ int main() {
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_port = htons(12345);  // Port
     serverAddr.sin_addr.s_addr = INADDR_ANY;  // Every address will be accepted
-
+    
     // bind server socket to address
     if (bind(serverSocket, (struct sockaddr *)&serverAddr, sizeof(serverAddr)) == -1) {
         perror("Binding error");
@@ -54,10 +55,15 @@ int main() {
     printf("Connection Established.\n");
 
     //data receiving
-    if (recv(clientSocket, &message, sizeof(message), 0) == -1) {
-        perror("Error during message receiving");
-    } else {
-        printf("%s: %s\n",message.username, message.text);
-	}
+    while(1){
+         if (recv(clientSocket, &message, sizeof(message), 0) == -1) {
+             perror("Error during message receiving");
+          } else {
+            if(strcmp(message.text, "*exit") != 0){
+             printf("%s: %s\n",message.username, message.text);
+            }else{break;}
+            }
+    }
+
     return 0;
 }

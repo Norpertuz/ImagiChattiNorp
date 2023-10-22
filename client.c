@@ -41,13 +41,24 @@ int main(){
 
         printf("Enter your nickname: ");
         scanf("%s", message.username);
+        while(2){
         printf("Enter your message: ");
-        scanf("%s", message.text);
+        fgets(message.text, MAX_MESSAGE_SIZE, stdin);
+
+        // removing new line from text
+        if ((strlen(message.text) > 0) && (message.text[strlen (message.text) - 1] == '\n'))
+        message.text[strlen (message.text) - 1] = '\0';
 
         if(send(clientSocket, &message, sizeof(message), 0) == -1){
                 perror("Can't send message");
         }
 
+        //command to logout from the chat
+        if(strcmp(message.text, "*exit") == 0){
+             break;
+        }
+
+        }
         close(clientSocket);
 
         return 0;
